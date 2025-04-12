@@ -1,4 +1,4 @@
-export default motivationMessage = [
+const motivationMessage = [
   "You are resilient, and each challenge is shaping you into a stronger professional.",
   "You radiate positive energy that attracts supportive people and great opportunities.",
   "Let go of worry and focus on what you can control.",
@@ -40,3 +40,5 @@ export default motivationMessage = [
   "You are showing up for yourself every day, and that matters.",
   "You are creating a career you’ll be proud of.",
 ];
+
+export default motivationMessage;
