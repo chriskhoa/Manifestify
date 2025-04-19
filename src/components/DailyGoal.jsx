@@ -1,8 +1,9 @@
 import React from "react";
 import { InputNumber } from "antd";
 import { useState, useEffect } from "react";
-import { Progress, Flex, Space, Button, message, Popconfirm } from "antd";
-import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { Progress, Space, Button, Popconfirm, Statistic } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+const { Countdown } = Statistic;
 
 const DailyGoal = () => {
   const [goalValue, setGoalValue] = useState(1);
@@ -10,6 +11,7 @@ const DailyGoal = () => {
   const [progressValue, setProgressValue] = useState(0);
   const [percent, setPercent] = useState(0);
 
+  // Keep track of daily progress in local storage
   useEffect(() => {
     const todayGoal = JSON.parse(localStorage.getItem("todayGoal"));
     const todayProgress = JSON.parse(localStorage.getItem("todayProgress"));
@@ -27,6 +29,7 @@ const DailyGoal = () => {
     }
   }, []);
 
+  // Reset goal at midnight
   useEffect(() => {
     const now = new Date();
     const tomorrow = new Date();
@@ -58,14 +61,18 @@ const DailyGoal = () => {
     setGoalValue(value);
   };
   const confirm = (e) => {
+    // set local storage to keep track of progress
     localStorage.setItem("todayGoal", JSON.stringify(goalValue));
     localStorage.setItem("todayProgress", JSON.stringify(0));
     localStorage.setItem("todayPercent", JSON.stringify(0));
+    // set daily goal progress value after confirmation
     setProgressValue(0);
     setPercent(0);
     setGoalSet(true);
   };
+
   const increase = () => {
+    // test function
     setProgressValue((prevProgressValue) => {
       const newProgressValue = prevProgressValue + 1;
       localStorage.setItem("todayProgress", JSON.stringify(newProgressValue));
@@ -100,6 +107,10 @@ const DailyGoal = () => {
             <Space.Compact>
               <Button onClick={increase} icon={<PlusOutlined />} />
             </Space.Compact>
+            <Countdown
+              title="Countdown"
+              value={new Date().setHours(24, 0, 0, 0)}
+            />
           </div>
         </div>
       ) : (
