@@ -9,12 +9,12 @@ const Streak = () => {
       <p>
         {streakMessages.find((item) => item.id === streak)
           ? streakMessages.find((item) => item.id === streak).message
-          : "no"}
+          : `Application ${streak}: Keep going!`}
       </p>
       <p>
         {streakMessages.find((item) => item.id === streak)
           ? streakMessages.find((item) => item.id === streak).emoji
-          : "no"}
+          : "🌟"}
       </p>
       <button onClick={() => setStreak((prev) => prev + 1)}>Test</button>
     </div>
