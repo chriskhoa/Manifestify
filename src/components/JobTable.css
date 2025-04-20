@@ -3,6 +3,7 @@
     max-width: 150px;
     min-width: 150px;
     white-space: nowrap;
+    overflow: hidden;
   }
   
   .col-jobtitle {
@@ -10,6 +11,7 @@
     max-width: 250px;
     min-width: 250px;
     text-align: center;
+    overflow: hidden;
   }
   
   .col-joblink {
@@ -21,6 +23,14 @@
     text-overflow: ellipsis;
   }
 
+  .col-deadline {
+    width: 140px !important;
+    max-width: 140px;
+    min-width: 140px;
+    text-align: center;
+    overflow: hidden;
+  }
+
 
   .col-clicks {
     width: 140px !important;
@@ -29,9 +39,9 @@
     text-align: center;
   }
 
-  .col-action {
-    width: 140px !important;
-    max-width: 140px;
-    min-width: 140px;
+  .col-actions {
+    width: 120px !important;
+    max-width:  120px;
+    min-width:  120px;
     text-align: center;
   }

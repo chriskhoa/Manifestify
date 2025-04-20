@@ -280,6 +280,7 @@ const JobTable = () => {
       title: 'Deadline',
       dataIndex: 'deadline',
       editable: true,
+      className: 'col-deadline',
     },
     {
       title: 'Status',
