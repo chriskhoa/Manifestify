@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import Motivator from "./components/Motivator";
 import DailyGoal from "./components/DailyGoal";
 import Streak from "./components/Streak.jsx";
 import JobTable from "./components/JobTable.jsx";
@@ -26,6 +27,7 @@ function App() {
     <>
       <h1>Manifestify</h1>
       <>
+        <Motivator />
         <Streak streak={streak} />
         <DailyGoal
           goalValue={goalValue}
