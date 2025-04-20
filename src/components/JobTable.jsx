@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react';
+import './JobTable.css'
 import {
   SearchOutlined,
   EditOutlined,
@@ -237,26 +238,38 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
       title: "Company",
       dataIndex: "company",
       editable: true,
-      ...getColumnSearchProps("company"),
+      ...getColumnSearchProps('company'),
+      className: 'col-company',
     },
     {
-      title: "Job Title",
-      dataIndex: "title",
+      title: 'Job Title',
+      dataIndex: 'title',
+      key: 'title',
       editable: true,
-      ...getColumnSearchProps("title"),
-      render: (_, record) =>
-        record.job_link ? (
-          <a href={record.job_link} target="_blank" rel="noopener noreferrer">
-            {record.title}
+      className: 'col-jobtitle',
+      ...getColumnSearchProps('title'),
+    },
+    {
+      title: 'Job Link',
+      dataIndex: 'job_link',
+      key: 'job_link',
+      editable: true,
+      className: 'col-joblink',
+      render: (text) => {
+        return text ? (
+          <a href={text} target="_blank" rel="noopener noreferrer">
+            {text}
           </a>
         ) : (
-          record.title
-        ),
+          ''
+        );
+      },
     },
     {
       title: "Date added",
       dataIndex: "key",
       editable: false,
+      className: 'col-dateadded',
       sorter: (a, b) => Number(a.key) - Number(b.key),
       render: (key) => new Date(Number(key)).toLocaleDateString(),
     },
@@ -264,11 +277,14 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
       title: "Deadline",
       dataIndex: "deadline",
       editable: true,
+      className: 'col-deadline',
     },
     {
       title: "Status",
       dataIndex: "status",
+      className: 'col-status',
       render: (_, record) => (
+      <div className={`status-wrapper status-${record.status?.toLowerCase() || ''}`}>
         <Select
           value={record.status}
           onChange={(value) => {
@@ -333,11 +349,13 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
           <Option value="Rejected">Rejected</Option>
           <Option value="Offer">Offer</Option>
         </Select>
+      </div>
       ),
     },
     {
       title: "Manifest it 🙏 ",
       dataIndex: "clicks",
+      className: 'col-clicks',
       sorter: (a, b) => a.clicks - b.clicks,
       render: (_, record) => (
         <div
@@ -355,14 +373,16 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
         </div>
       ),
     },
+    // {
+    //   title: 'Notes',
+    //   className: 'col-notes',
+    //   dataIndex: 'notes',
+    //   editable: true,
+    // },
     {
-      title: "Notes",
-      dataIndex: "notes",
-      editable: true,
-    },
-    {
-      title: "Actions",
-      dataIndex: "operation",
+      title: 'Actions',
+      dataIndex: 'operation',
+      className: 'col-actions',
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
@@ -449,11 +469,27 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
           columns={mergedColumns}
           rowClassName="editable-row"
           pagination={{ onChange: cancel }}
-          // expandable={{
-          //   expandedRowRender: (record) => (
-          //     <p style={{ margin: 0 }}>{record.notes}</p>
-          //   ),
-          // }}
+          expandable={{
+            expandedRowRender: (record) => {
+              const editing = isEditing(record);
+              return editing ? (
+                <Form.Item
+                  name="notes"
+                  style={{ margin: 0 }}
+                >
+                  <Input.TextArea
+                    placeholder="Enter notes here"
+                    autoSize={{ minRows: 2, maxRows: 6 }}
+                  />
+                </Form.Item>
+              ) : (
+                <div style={{ padding: '10px 0' }}>
+                  <strong>Notes:</strong> {record.notes || 'No notes yet'}
+                </div>
+              );
+            },
+            rowExpandable: () => true,
+          }}
         />
       </Form>
     </>

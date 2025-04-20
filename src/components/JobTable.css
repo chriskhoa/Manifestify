@@ -1,0 +1,76 @@
+.col-company {
+    width: 150px !important;
+    max-width: 150px;
+    min-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .col-jobtitle {
+    width: 250px !important;
+    max-width: 250px;
+    min-width: 250px;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  .col-joblink {
+    width: 150px !important;
+    max-width: 150px;
+    min-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .col-deadline {
+    width: 140px !important;
+    max-width: 140px;
+    min-width: 140px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+
+  .col-clicks {
+    width: 140px !important;
+    max-width: 140px;
+    min-width: 140px;
+    text-align: center;
+  }
+
+  .col-actions {
+    width: 120px !important;
+    max-width:  120px;
+    min-width:  120px;
+    text-align: center;
+  }
+
+/* Reset default */
+.status-wrapper .ant-select-selector {
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  /* Applied = blue */
+  .status-applied .ant-select-selector {
+    background-color: #e6f7ff !important;
+    border-color: #91d5ff !important;
+  }
+  
+  /* Interviewing = yellow */
+  .status-interviewing .ant-select-selector {
+    background-color: #fffbe6 !important;
+    border-color: #ffe58f !important;
+  }
+  
+  /* Rejected = red */
+  .status-rejected .ant-select-selector {
+    background-color: #fff1f0 !important;
+    border-color: #ffa39e !important;
+  }
+  
+  /* Offer = green */
+  .status-offer .ant-select-selector {
+    background-color: #f6ffed !important;
+    border-color: #b7eb8f !important;
+  }
