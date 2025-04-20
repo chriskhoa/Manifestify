@@ -45,3 +45,32 @@
     min-width:  120px;
     text-align: center;
   }
+
+/* Reset default */
+.status-wrapper .ant-select-selector {
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  /* Applied = blue */
+  .status-applied .ant-select-selector {
+    background-color: #e6f7ff !important;
+    border-color: #91d5ff !important;
+  }
+  
+  /* Interviewing = yellow */
+  .status-interviewing .ant-select-selector {
+    background-color: #fffbe6 !important;
+    border-color: #ffe58f !important;
+  }
+  
+  /* Rejected = red */
+  .status-rejected .ant-select-selector {
+    background-color: #fff1f0 !important;
+    border-color: #ffa39e !important;
+  }
+  
+  /* Offer = green */
+  .status-offer .ant-select-selector {
+    background-color: #f6ffed !important;
+    border-color: #b7eb8f !important;
+  }

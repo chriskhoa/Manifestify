@@ -158,7 +158,7 @@ const JobTable = () => {
     }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
         <Input
-          name = "keyword"
+          name="keyword"
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
@@ -287,17 +287,19 @@ const JobTable = () => {
       dataIndex: 'status',
       className: 'col-status',
       render: (_, record) => (
-        <Select
-          value={record.status}
-          onChange={(value) => handleStatusChange(value, record)}
-          style={{ width: 120 }}
-        >
-          <Option value="Applied">Applied</Option>
-          <Option value="Interviewing">Interviewing</Option>
-          <Option value="Rejected">Rejected</Option>
-          <Option value="Offer">Offer</Option>
-        </Select>
-      ),
+        <div className={`status-wrapper status-${record.status?.toLowerCase() || ''}`}>
+          <Select
+            value={record.status}
+            onChange={(value) => handleStatusChange(value, record)}
+            style={{ width: 120 }}
+          >
+            <Option value="Applied">Applied</Option>
+            <Option value="Interviewing">Interviewing</Option>
+            <Option value="Rejected">Rejected</Option>
+            <Option value="Offer">Offer</Option>
+          </Select>
+        </div>
+      )
     },
     {
       title: 'Manifest it 🙏 ',
