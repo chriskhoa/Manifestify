@@ -245,17 +245,17 @@ const JobTable = () => {
     {
       title: 'Job Title',
       dataIndex: 'title',
+      key: 'title',
       editable: true,
       className: 'col-jobtitle',
       ...getColumnSearchProps('title'),
-      render: (_, record) =>
-        record.job_link ? (
-          <a href={record.job_link} target="_blank" rel="noopener noreferrer">
-            {record.title}
-          </a>
-        ) : (
-          record.title
-        ),
+    },
+    {
+      title: 'Job Link',
+      dataIndex: 'job_link',
+      key: 'job_link',
+      editable: true,
+      className: 'col-joblink',
     },
     {
       title: 'Date added',
