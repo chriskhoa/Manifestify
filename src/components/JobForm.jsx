@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
-import { CloudSyncOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-} from 'antd';
+import React, { useState } from "react";
+import { CloudSyncOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Form, Input } from "antd";
 
 const { TextArea } = Input;
-
 
 const JobForm = ({ setJobItems }) => {
   const [form] = Form.useForm();
 
-  const [company, setCompany] = useState('');
-  const [title, setTitle] = useState('');
-  const [link, setLink] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [notes, setNotes] = useState('');
-  const [status, setStatus] = useState('');
-
+  const [company, setCompany] = useState("");
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [notes, setNotes] = useState("");
+  const [status, setStatus] = useState("");
 
   const addJob = () => {
     if (company && title) {
@@ -28,7 +21,7 @@ const JobForm = ({ setJobItems }) => {
         company,
         title,
         job_link: link,
-        deadline: deadline ? deadline.format('YYYY-MM-DD') : 'Rolling',
+        deadline: deadline ? deadline.format("YYYY-MM-DD") : "Rolling",
         notes,
         status: status ? status : "Not submitted",
       };
@@ -36,20 +29,21 @@ const JobForm = ({ setJobItems }) => {
       setJobItems(newJob); // Just pass the object
 
       // Reset fields
-      setCompany('');
-      setTitle('');
-      setLink('');
+      setCompany("");
+      setTitle("");
+      setLink("");
       setDeadline(null);
-      setNotes('');
-      setStatus('')
-      setDate('');
+      setNotes("");
+      setStatus("");
+      // setDate('');
       form.resetFields();
     }
   };
 
   return (
     <>
-      <Form form={form}
+      <Form
+        form={form}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
@@ -85,21 +79,25 @@ const JobForm = ({ setJobItems }) => {
             id="deadline"
             autoComplete="deadline"
             value={deadline}
-            onChange={(e) => setDeadline(e.target.value)} />
+            onChange={(date) => setDeadline(date)}
+          />
         </Form.Item>
         <Form.Item name="notes" label="Notes">
-          <TextArea id="notes"
+          <TextArea
+            id="notes"
             autoComplete="notes"
-            name="notes" value={notes} rows={4} onChange={(e) => setNotes(e.target.value)} />
+            name="notes"
+            value={notes}
+            rows={4}
+            onChange={(e) => setNotes(e.target.value)}
+          />
         </Form.Item>
         <Form.Item type="primary" onClick={addJob}>
           <Button>Add Job</Button>
         </Form.Item>
       </Form>
     </>
-  )
-}
+  );
+};
 
 export default JobForm;
-
-

@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
 import './JobTable.css'
-
 import {
   SearchOutlined,
   EditOutlined,
   SaveOutlined,
   CloseOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 import {
   Button,
   Form,
@@ -17,9 +16,9 @@ import {
   Space,
   Table,
   Typography,
-} from 'antd';
-import Highlighter from 'react-highlight-words';
-import JobForm from './JobForm.jsx';
+} from "antd";
+import Highlighter from "react-highlight-words";
+import JobForm from "./JobForm.jsx";
 
 const { Option } = Select;
 
@@ -34,16 +33,17 @@ const EditableCell = ({
   ...restProps
 }) => {
   let inputNode;
-  if (dataIndex === 'status') {
+  if (dataIndex === "status") {
     inputNode = (
       <Select>
+        <Option value="Not submitted">Not submitted</Option>
         <Option value="Applied">Applied</Option>
         <Option value="Interviewing">Interviewing</Option>
         <Option value="Rejected">Rejected</Option>
         <Option value="Offer">Offer</Option>
       </Select>
     );
-  } else if (dataIndex === 'deadline') {
+  } else if (dataIndex === "deadline") {
     inputNode = <Input type="date" />;
   } else {
     inputNode = <Input />;
@@ -66,15 +66,15 @@ const EditableCell = ({
   );
 };
 
-const JobTable = () => {
+const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
   const [form] = Form.useForm();
   const [dataSource, setDataSource] = useState(() => {
-    return JSON.parse(localStorage.getItem('my-jobs')) || [];
+    return JSON.parse(localStorage.getItem("my-jobs")) || [];
   });
 
-  const [editingKey, setEditingKey] = useState('');
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  const [editingKey, setEditingKey] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
   const isEditing = (record) => record.key === editingKey;
@@ -82,7 +82,7 @@ const JobTable = () => {
   const handleAddJob = (job) => {
     const updatedData = [...dataSource, { ...job, clicks: 0 }];
     setDataSource(updatedData);
-    localStorage.setItem('my-jobs', JSON.stringify(updatedData));
+    localStorage.setItem("my-jobs", JSON.stringify(updatedData));
   };
 
   const edit = (record) => {
@@ -91,7 +91,7 @@ const JobTable = () => {
   };
 
   const cancel = () => {
-    setEditingKey('');
+    setEditingKey("");
   };
 
   const save = async (key) => {
@@ -105,11 +105,11 @@ const JobTable = () => {
         const updated = { ...item, ...row };
         newData.splice(index, 1, updated);
         setDataSource(newData);
-        localStorage.setItem('my-jobs', JSON.stringify(newData));
-        setEditingKey('');
+        localStorage.setItem("my-jobs", JSON.stringify(newData));
+        setEditingKey("");
       }
     } catch (err) {
-      console.log('Validate Failed:', err);
+      console.log("Validate Failed:", err);
     }
   };
 
@@ -123,7 +123,7 @@ const JobTable = () => {
       };
       newData.splice(index, 1, updated);
       setDataSource(newData);
-      localStorage.setItem('my-jobs', JSON.stringify(newData));
+      localStorage.setItem("my-jobs", JSON.stringify(newData));
     }
   };
 
@@ -133,7 +133,7 @@ const JobTable = () => {
     if (index > -1) {
       newData[index].status = value;
       setDataSource(newData);
-      localStorage.setItem('my-jobs', JSON.stringify(newData));
+      localStorage.setItem("my-jobs", JSON.stringify(newData));
     }
   };
 
@@ -145,7 +145,7 @@ const JobTable = () => {
 
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText('');
+    setSearchText("");
   };
 
   const getColumnSearchProps = (dataIndex) => ({
@@ -166,7 +166,7 @@ const JobTable = () => {
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
+          style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
@@ -203,27 +203,24 @@ const JobTable = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        ?.toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
+      record[dataIndex]?.toString().toLowerCase().includes(value.toLowerCase()),
     filterDropdownProps: {
       onOpenChange: (open) => {
         if (open) {
           setTimeout(() => searchInput.current?.select(), 100);
         }
-      }
+      },
     },
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text ? text.toString() : ""}
         />
       ) : (
         text
@@ -233,13 +230,13 @@ const JobTable = () => {
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
-    localStorage.setItem('my-jobs', JSON.stringify(newData));
+    localStorage.setItem("my-jobs", JSON.stringify(newData));
   };
 
   const columns = [
     {
-      title: 'Company',
-      dataIndex: 'company',
+      title: "Company",
+      dataIndex: "company",
       editable: true,
       ...getColumnSearchProps('company'),
       className: 'col-company',
@@ -269,54 +266,108 @@ const JobTable = () => {
       },
     },
     {
-      title: 'Date added',
-      dataIndex: 'key',
+      title: "Date added",
+      dataIndex: "key",
       editable: false,
       className: 'col-dateadded',
       sorter: (a, b) => Number(a.key) - Number(b.key),
       render: (key) => new Date(Number(key)).toLocaleDateString(),
     },
     {
-      title: 'Deadline',
-      dataIndex: 'deadline',
+      title: "Deadline",
+      dataIndex: "deadline",
       editable: true,
       className: 'col-deadline',
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
+      title: "Status",
+      dataIndex: "status",
       className: 'col-status',
       render: (_, record) => (
-        <div className={`status-wrapper status-${record.status?.toLowerCase() || ''}`}>
-          <Select
-            value={record.status}
-            onChange={(value) => handleStatusChange(value, record)}
-            style={{ width: 120 }}
-          >
-            <Option value="Applied">Applied</Option>
-            <Option value="Interviewing">Interviewing</Option>
-            <Option value="Rejected">Rejected</Option>
-            <Option value="Offer">Offer</Option>
-          </Select>
-        </div>
-      )
+      <div className={`status-wrapper status-${record.status?.toLowerCase() || ''}`}>
+        <Select
+          value={record.status}
+          onChange={(value) => {
+            handleStatusChange(value, record);
+            setStreak(
+              JSON.parse(localStorage.getItem("my-jobs")).filter(
+                (item) => item.status !== "Not submitted"
+              ).length
+            );
+            setProgressValue((prevProgressValue) => {
+              if (value === "Applied") {
+                const newProgressValue = prevProgressValue + 1;
+                localStorage.setItem(
+                  "todayProgress",
+                  JSON.stringify(newProgressValue)
+                );
+                return newProgressValue;
+              } else if (value === "Not submitted") {
+                const newProgressValue = prevProgressValue - 1;
+                localStorage.setItem(
+                  "todayProgress",
+                  JSON.stringify(newProgressValue)
+                );
+                return newProgressValue;
+              } else {
+                return JSON.parse(localStorage.getItem("todayProgress"));
+              }
+            });
+            setPercent((prevPercent) => {
+              if (value === "Applied") {
+                const newPercent = prevPercent + (1 / goalValue) * 100;
+                if (newPercent > 99.99) {
+                  localStorage.setItem("todayPercent", JSON.stringify(100));
+                  return 100;
+                }
+                localStorage.setItem(
+                  "todayPercent",
+                  JSON.stringify(newPercent)
+                );
+                return newPercent;
+              } else if (value === "Not submitted") {
+                const newPercent = prevPercent - (1 / goalValue) * 100;
+                if (newPercent > 99.99) {
+                  localStorage.setItem("todayPercent", JSON.stringify(100));
+                  return 100;
+                }
+                localStorage.setItem(
+                  "todayPercent",
+                  JSON.stringify(newPercent)
+                );
+                return newPercent;
+              } else {
+                return JSON.parse(localStorage.getItem("todayPercent"));
+              }
+            });
+          }}
+          style={{ width: 120 }}
+        >
+          <Option value="Not submitted">Not submitted</Option>
+          <Option value="Applied">Applied</Option>
+          <Option value="Interviewing">Interviewing</Option>
+          <Option value="Rejected">Rejected</Option>
+          <Option value="Offer">Offer</Option>
+        </Select>
+      </div>
+      ),
     },
     {
-      title: 'Manifest it 🙏 ',
-      dataIndex: 'clicks',
+      title: "Manifest it 🙏 ",
+      dataIndex: "clicks",
       className: 'col-clicks',
       sorter: (a, b) => a.clicks - b.clicks,
       render: (_, record) => (
         <div
           onClick={() => handleClick(record)}
           style={{
-            cursor: 'pointer',
-            fontSize: '20px',
-            transform: 'scale(1)',
-            transition: 'transform 0.2s',
+            cursor: "pointer",
+            fontSize: "20px",
+            transform: "scale(1)",
+            transition: "transform 0.2s",
           }}
-          onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(1.5)')}
-          onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          onMouseDown={(e) => (e.currentTarget.style.transform = "scale(1.5)")}
+          onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           🙏 {record.clicks || 0}
         </div>
@@ -349,28 +400,38 @@ const JobTable = () => {
             </Popconfirm>
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => {
+                handleDelete(record.key);
+                setStreak(
+                  JSON.parse(localStorage.getItem("my-jobs")).filter(
+                    (item) => item.status !== "Not submitted"
+                  ).length
+                );
+              }}
             >
-              <a style={{ color: 'red' }}>
-                🗑
-              </a>
+              <a style={{ color: "red" }}>🗑</a>
             </Popconfirm>
           </span>
         ) : (
           <Space>
             <Typography.Link
-              disabled={editingKey !== ''}
+              disabled={editingKey !== ""}
               onClick={() => edit(record)}
             >
               <EditOutlined />
             </Typography.Link>
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => {
+                handleDelete(record.key);
+                setStreak(
+                  JSON.parse(localStorage.getItem("my-jobs")).filter(
+                    (item) => item.status !== "Not submitted"
+                  ).length
+                );
+              }}
             >
-              <a style={{ color: 'red' }}>
-                🗑
-              </a>
+              <a style={{ color: "red" }}>🗑</a>
             </Popconfirm>
           </Space>
         );
@@ -385,11 +446,11 @@ const JobTable = () => {
       onCell: (record) => ({
         record,
         inputType:
-          col.dataIndex === 'deadline'
-            ? 'date'
-            : col.dataIndex === 'status'
-              ? 'select'
-              : 'text',
+          col.dataIndex === "deadline"
+            ? "date"
+            : col.dataIndex === "status"
+            ? "select"
+            : "text",
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
