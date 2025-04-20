@@ -18,9 +18,11 @@ function App() {
 
   useEffect(() => {
     setStreak(
-      JSON.parse(localStorage.getItem("my-jobs")).filter(
-        (item) => item.status !== "Not submitted"
-      ).length
+      localStorage.getItem("my-jobs")
+        ? JSON.parse(localStorage.getItem("my-jobs")).filter(
+            (item) => item.status !== "Not submitted"
+          ).length
+        : 0
     );
   }, []);
   return (
