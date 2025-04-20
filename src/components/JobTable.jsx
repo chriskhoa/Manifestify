@@ -240,11 +240,13 @@ const JobTable = () => {
       dataIndex: 'company',
       editable: true,
       ...getColumnSearchProps('company'),
+      className: 'col-company',
     },
     {
       title: 'Job Title',
       dataIndex: 'title',
       editable: true,
+      className: 'col-jobtitle',
       ...getColumnSearchProps('title'),
       render: (_, record) =>
         record.job_link ? (
@@ -259,6 +261,7 @@ const JobTable = () => {
       title: 'Date added',
       dataIndex: 'key',
       editable: false,
+      className: 'col-dateadded',
       sorter: (a, b) => Number(a.key) - Number(b.key),
       render: (key) => new Date(Number(key)).toLocaleDateString(),
     },
@@ -270,6 +273,7 @@ const JobTable = () => {
     {
       title: 'Status',
       dataIndex: 'status',
+      className: 'col-status',
       render: (_, record) => (
         <Select
           value={record.status}
@@ -286,6 +290,7 @@ const JobTable = () => {
     {
       title: 'Manifest it 🙏 ',
       dataIndex: 'clicks',
+      className: 'col-clicks',
       sorter: (a, b) => a.clicks - b.clicks,
       render: (_, record) => (
         <div
@@ -305,12 +310,14 @@ const JobTable = () => {
     },
     {
       title: 'Notes',
+      className: 'col-notes',
       dataIndex: 'notes',
       editable: true,
     },
     {
       title: 'Actions',
       dataIndex: 'operation',
+      className: 'col-actions',
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
