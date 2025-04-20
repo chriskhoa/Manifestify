@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import './JobTable.css'
+
 import {
   SearchOutlined,
   EditOutlined,
