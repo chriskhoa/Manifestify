@@ -319,12 +319,12 @@ const JobTable = () => {
         </div>
       ),
     },
-    {
-      title: 'Notes',
-      className: 'col-notes',
-      dataIndex: 'notes',
-      editable: true,
-    },
+    // {
+    //   title: 'Notes',
+    //   className: 'col-notes',
+    //   dataIndex: 'notes',
+    //   editable: true,
+    // },
     {
       title: 'Actions',
       dataIndex: 'operation',
@@ -405,11 +405,27 @@ const JobTable = () => {
           columns={mergedColumns}
           rowClassName="editable-row"
           pagination={{ onChange: cancel }}
-        // expandable={{
-        //   expandedRowRender: (record) => (
-        //     <p style={{ margin: 0 }}>{record.notes}</p>
-        //   ),
-        // }}
+          expandable={{
+            expandedRowRender: (record) => {
+              const editing = isEditing(record);
+              return editing ? (
+                <Form.Item
+                  name="notes"
+                  style={{ margin: 0 }}
+                >
+                  <Input.TextArea
+                    placeholder="Enter notes here"
+                    autoSize={{ minRows: 2, maxRows: 6 }}
+                  />
+                </Form.Item>
+              ) : (
+                <div style={{ padding: '10px 0' }}>
+                  <strong>Notes:</strong> {record.notes || 'No notes yet'}
+                </div>
+              );
+            },
+            rowExpandable: () => true,
+          }}
         />
       </Form>
     </>
