@@ -5,11 +5,20 @@ import { Progress, Space, Button, Popconfirm, Statistic } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 const { Countdown } = Statistic;
 
-const DailyGoal = () => {
-  const [goalValue, setGoalValue] = useState(1);
-  const [goalSet, setGoalSet] = useState(false);
-  const [progressValue, setProgressValue] = useState(0);
-  const [percent, setPercent] = useState(0);
+const DailyGoal = ({
+  goalValue,
+  setGoalValue,
+  goalSet,
+  setGoalSet,
+  progressValue,
+  setProgressValue,
+  percent,
+  setPercent,
+}) => {
+  // const [goalValue, setGoalValue] = useState(1);
+  // const [goalSet, setGoalSet] = useState(false);
+  // const [progressValue, setProgressValue] = useState(0);
+  // const [percent, setPercent] = useState(0);
 
   // Keep track of daily progress in local storage
   useEffect(() => {
@@ -104,9 +113,9 @@ const DailyGoal = () => {
               format={() => `${progressValue} / ${goalValue}`}
               percent={percent}
             />
-            <Space.Compact>
+            {/* <Space.Compact>
               <Button onClick={increase} icon={<PlusOutlined />} />
-            </Space.Compact>
+            </Space.Compact> */}
             <Countdown
               title="Countdown"
               value={new Date().setHours(24, 0, 0, 0)}
