@@ -8,6 +8,7 @@ import DailyGoal from "./components/DailyGoal";
 import Streak from "./components/Streak.jsx";
 import JobTable from "./components/JobTable.jsx";
 import "@ant-design/v5-patch-for-react-19";
+import JobForm from "./components/JobForm.jsx";
 
 function App() {
   const [streak, setStreak] = useState(0);
@@ -15,6 +16,15 @@ function App() {
   const [goalSet, setGoalSet] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const [percent, setPercent] = useState(0);
+  const [dataSource, setDataSource] = useState(() => {
+    return JSON.parse(localStorage.getItem("my-jobs")) || [];
+  });
+
+  const handleAddJob = (job) => {
+    const updatedData = [...dataSource, { ...job, clicks: 0 }];
+    setDataSource(updatedData);
+    localStorage.setItem("my-jobs", JSON.stringify(updatedData));
+  };
 
   useEffect(() => {
     setStreak(
@@ -41,11 +51,14 @@ function App() {
           percent={percent}
           setPercent={setPercent}
         />
+        <JobForm setJobItems={handleAddJob} />
         <JobTable
           setStreak={setStreak}
           setProgressValue={setProgressValue}
           setPercent={setPercent}
           goalValue={goalValue}
+          dataSource={dataSource}
+          setDataSource={setDataSource}
         />
       </>
     </>

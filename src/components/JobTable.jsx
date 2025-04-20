@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import './JobTable.css'
+import React, { useRef, useState } from "react";
+import "./JobTable.css";
 import {
   SearchOutlined,
   EditOutlined,
@@ -66,11 +66,18 @@ const EditableCell = ({
   );
 };
 
-const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
+const JobTable = ({
+  setStreak,
+  setProgressValue,
+  setPercent,
+  goalValue,
+  dataSource,
+  setDataSource,
+}) => {
   const [form] = Form.useForm();
-  const [dataSource, setDataSource] = useState(() => {
-    return JSON.parse(localStorage.getItem("my-jobs")) || [];
-  });
+  // const [dataSource, setDataSource] = useState(() => {
+  //   return JSON.parse(localStorage.getItem("my-jobs")) || [];
+  // });
 
   const [editingKey, setEditingKey] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -79,11 +86,11 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
 
   const isEditing = (record) => record.key === editingKey;
 
-  const handleAddJob = (job) => {
-    const updatedData = [...dataSource, { ...job, clicks: 0 }];
-    setDataSource(updatedData);
-    localStorage.setItem("my-jobs", JSON.stringify(updatedData));
-  };
+  // const handleAddJob = (job) => {
+  //   const updatedData = [...dataSource, { ...job, clicks: 0 }];
+  //   setDataSource(updatedData);
+  //   localStorage.setItem("my-jobs", JSON.stringify(updatedData));
+  // };
 
   const edit = (record) => {
     form.setFieldsValue({ ...record });
@@ -238,30 +245,30 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
       title: "Company",
       dataIndex: "company",
       editable: true,
-      ...getColumnSearchProps('company'),
-      className: 'col-company',
+      ...getColumnSearchProps("company"),
+      className: "col-company",
     },
     {
-      title: 'Job Title',
-      dataIndex: 'title',
-      key: 'title',
+      title: "Job Title",
+      dataIndex: "title",
+      key: "title",
       editable: true,
-      className: 'col-jobtitle',
-      ...getColumnSearchProps('title'),
+      className: "col-jobtitle",
+      ...getColumnSearchProps("title"),
     },
     {
-      title: 'Job Link',
-      dataIndex: 'job_link',
-      key: 'job_link',
+      title: "Job Link",
+      dataIndex: "job_link",
+      key: "job_link",
       editable: true,
-      className: 'col-joblink',
+      className: "col-joblink",
       render: (text) => {
         return text ? (
           <a href={text} target="_blank" rel="noopener noreferrer">
             {text}
           </a>
         ) : (
-          ''
+          ""
         );
       },
     },
@@ -269,7 +276,7 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
       title: "Date added",
       dataIndex: "key",
       editable: false,
-      className: 'col-dateadded',
+      className: "col-dateadded",
       sorter: (a, b) => Number(a.key) - Number(b.key),
       render: (key) => new Date(Number(key)).toLocaleDateString(),
     },
@@ -277,85 +284,89 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
       title: "Deadline",
       dataIndex: "deadline",
       editable: true,
-      className: 'col-deadline',
+      className: "col-deadline",
     },
     {
       title: "Status",
       dataIndex: "status",
-      className: 'col-status',
+      className: "col-status",
       render: (_, record) => (
-      <div className={`status-wrapper status-${record.status?.toLowerCase() || ''}`}>
-        <Select
-          value={record.status}
-          onChange={(value) => {
-            handleStatusChange(value, record);
-            setStreak(
-              JSON.parse(localStorage.getItem("my-jobs")).filter(
-                (item) => item.status !== "Not submitted"
-              ).length
-            );
-            setProgressValue((prevProgressValue) => {
-              if (value === "Applied") {
-                const newProgressValue = prevProgressValue + 1;
-                localStorage.setItem(
-                  "todayProgress",
-                  JSON.stringify(newProgressValue)
-                );
-                return newProgressValue;
-              } else if (value === "Not submitted") {
-                const newProgressValue = prevProgressValue - 1;
-                localStorage.setItem(
-                  "todayProgress",
-                  JSON.stringify(newProgressValue)
-                );
-                return newProgressValue;
-              } else {
-                return JSON.parse(localStorage.getItem("todayProgress"));
-              }
-            });
-            setPercent((prevPercent) => {
-              if (value === "Applied") {
-                const newPercent = prevPercent + (1 / goalValue) * 100;
-                if (newPercent > 99.99) {
-                  localStorage.setItem("todayPercent", JSON.stringify(100));
-                  return 100;
-                }
-                localStorage.setItem(
-                  "todayPercent",
-                  JSON.stringify(newPercent)
-                );
-                return newPercent;
-              } else if (value === "Not submitted") {
-                const newPercent = prevPercent - (1 / goalValue) * 100;
-                if (newPercent > 99.99) {
-                  localStorage.setItem("todayPercent", JSON.stringify(100));
-                  return 100;
-                }
-                localStorage.setItem(
-                  "todayPercent",
-                  JSON.stringify(newPercent)
-                );
-                return newPercent;
-              } else {
-                return JSON.parse(localStorage.getItem("todayPercent"));
-              }
-            });
-          }}
-          style={{ width: 120 }}
+        <div
+          className={`status-wrapper status-${
+            record.status?.toLowerCase() || ""
+          }`}
         >
-          <Option value="Not submitted">Not submitted</Option>
-          <Option value="Applied">Applied</Option>
-          <Option value="Interviewing">Interviewing</Option>
-          <Option value="Rejected">Rejected</Option>
-          <Option value="Offer">Offer</Option>
-        </Select>
-      </div>
+          <Select
+            value={record.status}
+            onChange={(value) => {
+              handleStatusChange(value, record);
+              setStreak(
+                JSON.parse(localStorage.getItem("my-jobs")).filter(
+                  (item) => item.status !== "Not submitted"
+                ).length
+              );
+              setProgressValue((prevProgressValue) => {
+                if (value === "Applied") {
+                  const newProgressValue = prevProgressValue + 1;
+                  localStorage.setItem(
+                    "todayProgress",
+                    JSON.stringify(newProgressValue)
+                  );
+                  return newProgressValue;
+                } else if (value === "Not submitted") {
+                  const newProgressValue = prevProgressValue - 1;
+                  localStorage.setItem(
+                    "todayProgress",
+                    JSON.stringify(newProgressValue)
+                  );
+                  return newProgressValue;
+                } else {
+                  return JSON.parse(localStorage.getItem("todayProgress"));
+                }
+              });
+              setPercent((prevPercent) => {
+                if (value === "Applied") {
+                  const newPercent = prevPercent + (1 / goalValue) * 100;
+                  if (newPercent > 99.99) {
+                    localStorage.setItem("todayPercent", JSON.stringify(100));
+                    return 100;
+                  }
+                  localStorage.setItem(
+                    "todayPercent",
+                    JSON.stringify(newPercent)
+                  );
+                  return newPercent;
+                } else if (value === "Not submitted") {
+                  const newPercent = prevPercent - (1 / goalValue) * 100;
+                  if (newPercent > 99.99) {
+                    localStorage.setItem("todayPercent", JSON.stringify(100));
+                    return 100;
+                  }
+                  localStorage.setItem(
+                    "todayPercent",
+                    JSON.stringify(newPercent)
+                  );
+                  return newPercent;
+                } else {
+                  return JSON.parse(localStorage.getItem("todayPercent"));
+                }
+              });
+            }}
+            style={{ width: 120 }}
+          >
+            <Option value="Not submitted">Not submitted</Option>
+            <Option value="Applied">Applied</Option>
+            <Option value="Interviewing">Interviewing</Option>
+            <Option value="Rejected">Rejected</Option>
+            <Option value="Offer">Offer</Option>
+          </Select>
+        </div>
       ),
     },
     {
       title: "Manifest it 🙏 ",
       dataIndex: "clicks",
-      className: 'col-clicks',
+      className: "col-clicks",
       sorter: (a, b) => a.clicks - b.clicks,
       render: (_, record) => (
         <div
@@ -380,9 +391,9 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
     //   editable: true,
     // },
     {
-      title: 'Actions',
-      dataIndex: 'operation',
-      className: 'col-actions',
+      title: "Actions",
+      dataIndex: "operation",
+      className: "col-actions",
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
@@ -460,7 +471,7 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
 
   return (
     <>
-      <JobForm setJobItems={handleAddJob} />
+      {/* <JobForm setJobItems={handleAddJob} /> */}
       <Form form={form} component={false}>
         <Table
           components={{ body: { cell: EditableCell } }}
@@ -473,18 +484,15 @@ const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
             expandedRowRender: (record) => {
               const editing = isEditing(record);
               return editing ? (
-                <Form.Item
-                  name="notes"
-                  style={{ margin: 0 }}
-                >
+                <Form.Item name="notes" style={{ margin: 0 }}>
                   <Input.TextArea
                     placeholder="Enter notes here"
                     autoSize={{ minRows: 2, maxRows: 6 }}
                   />
                 </Form.Item>
               ) : (
-                <div style={{ padding: '10px 0' }}>
-                  <strong>Notes:</strong> {record.notes || 'No notes yet'}
+                <div style={{ padding: "10px 0" }}>
+                  <strong>Notes:</strong> {record.notes || "No notes yet"}
                 </div>
               );
             },
