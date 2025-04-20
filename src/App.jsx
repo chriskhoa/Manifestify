@@ -9,8 +9,11 @@ import Streak from "./components/Streak.jsx";
 import JobTable from "./components/JobTable.jsx";
 import "@ant-design/v5-patch-for-react-19";
 import JobForm from "./components/JobForm.jsx";
+import { Layout, Row, Col } from "antd";
+
 
 function App() {
+  const { Content } = Layout;
   const [streak, setStreak] = useState(0);
   const [goalValue, setGoalValue] = useState(1);
   const [goalSet, setGoalSet] = useState(false);
@@ -30,37 +33,54 @@ function App() {
     setStreak(
       localStorage.getItem("my-jobs")
         ? JSON.parse(localStorage.getItem("my-jobs")).filter(
-            (item) => item.status !== "Not submitted"
-          ).length
+          (item) => item.status !== "Not submitted"
+        ).length
         : 0
     );
   }, []);
   return (
     <>
-      <h1>Manifestify</h1>
-      <>
-        <Motivator />
-        <Streak streak={streak} />
-        <DailyGoal
-          goalValue={goalValue}
-          setGoalValue={setGoalValue}
-          goalSet={goalSet}
-          setGoalSet={setGoalSet}
-          progressValue={progressValue}
-          setProgressValue={setProgressValue}
-          percent={percent}
-          setPercent={setPercent}
-        />
-        <JobForm setJobItems={handleAddJob} />
-        <JobTable
-          setStreak={setStreak}
-          setProgressValue={setProgressValue}
-          setPercent={setPercent}
-          goalValue={goalValue}
-          dataSource={dataSource}
-          setDataSource={setDataSource}
-        />
-      </>
+      <h1 style={{ textAlign: "center", margin: "24px 0" }}>Manifestify</h1>
+      <Layout style={{  background: "#fff", minHeight: "100vh", padding: "24px" }}>
+        <Content>
+          {/* Top section with 3 columns */}
+          <Row gutter={[24, 24]}>
+            <Col xs={24} md={8}>
+              <JobForm setJobItems={handleAddJob} />
+            </Col>
+            <Col xs={24} md={8}>
+              <Motivator />
+              <Streak streak={streak} />
+            </Col>
+            <Col xs={24} md={8}>
+              <DailyGoal
+                goalValue={goalValue}
+                setGoalValue={setGoalValue}
+                goalSet={goalSet}
+                setGoalSet={setGoalSet}
+                progressValue={progressValue}
+                setProgressValue={setProgressValue}
+                percent={percent}
+                setPercent={setPercent}
+              />
+            </Col>
+          </Row>
+
+          {/* Bottom section with table */}
+          <Row style={{ marginTop: "32px" }}>
+            <Col span={24}>
+              <JobTable
+                setStreak={setStreak}
+                setProgressValue={setProgressValue}
+                setPercent={setPercent}
+                goalValue={goalValue}
+                dataSource={dataSource}
+                setDataSource={setDataSource}
+              />
+            </Col>
+          </Row>
+        </Content>
+      </Layout>
     </>
   );
 }
