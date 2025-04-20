@@ -65,7 +65,7 @@ const EditableCell = ({
   );
 };
 
-const JobTable = ({ setStreak }) => {
+const JobTable = ({ setStreak, setProgressValue, setPercent, goalValue }) => {
   const [form] = Form.useForm();
   const [dataSource, setDataSource] = useState(() => {
     return JSON.parse(localStorage.getItem("my-jobs")) || [];
@@ -278,6 +278,52 @@ const JobTable = ({ setStreak }) => {
                 (item) => item.status !== "Not submitted"
               ).length
             );
+            setProgressValue((prevProgressValue) => {
+              if (value === "Applied") {
+                const newProgressValue = prevProgressValue + 1;
+                localStorage.setItem(
+                  "todayProgress",
+                  JSON.stringify(newProgressValue)
+                );
+                return newProgressValue;
+              } else if (value === "Not submitted") {
+                const newProgressValue = prevProgressValue - 1;
+                localStorage.setItem(
+                  "todayProgress",
+                  JSON.stringify(newProgressValue)
+                );
+                return newProgressValue;
+              } else {
+                return JSON.parse(localStorage.getItem("todayProgress"));
+              }
+            });
+            setPercent((prevPercent) => {
+              if (value === "Applied") {
+                const newPercent = prevPercent + (1 / goalValue) * 100;
+                if (newPercent > 99.99) {
+                  localStorage.setItem("todayPercent", JSON.stringify(100));
+                  return 100;
+                }
+                localStorage.setItem(
+                  "todayPercent",
+                  JSON.stringify(newPercent)
+                );
+                return newPercent;
+              } else if (value === "Not submitted") {
+                const newPercent = prevPercent - (1 / goalValue) * 100;
+                if (newPercent > 99.99) {
+                  localStorage.setItem("todayPercent", JSON.stringify(100));
+                  return 100;
+                }
+                localStorage.setItem(
+                  "todayPercent",
+                  JSON.stringify(newPercent)
+                );
+                return newPercent;
+              } else {
+                return JSON.parse(localStorage.getItem("todayPercent"));
+              }
+            });
           }}
           style={{ width: 120 }}
         >
