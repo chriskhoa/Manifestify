@@ -258,6 +258,15 @@ const JobTable = () => {
       key: 'job_link',
       editable: true,
       className: 'col-joblink',
+      render: (text) => {
+        return text ? (
+          <a href={text} target="_blank" rel="noopener noreferrer">
+            {text}
+          </a>
+        ) : (
+          ''
+        );
+      },
     },
     {
       title: 'Date added',
