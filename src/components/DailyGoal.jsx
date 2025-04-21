@@ -41,30 +41,46 @@ const DailyGoal = ({
 
   // Reset goal at midnight
   useEffect(() => {
-    const now = new Date();
-    const tomorrow = new Date();
-    tomorrow.setHours(24, 0, 0, 0); // Midnight tonight
-    const timeUntilMidnight = tomorrow.getTime() - now.getTime();
+    // const now = new Date();
+    // const tomorrow = new Date();
+    // tomorrow.setHours(0, 31, 0, 0); // Midnight tonight
+    // const timeUntilMidnight = tomorrow.getTime() - now.getTime();
 
-    const timer = setTimeout(() => {
-      // Clear localStorage values
+    // const timer = setTimeout(() => {
+    //   // Clear localStorage values
+    //   localStorage.removeItem("todayGoal");
+    //   localStorage.removeItem("todayProgress");
+    //   localStorage.removeItem("todayPercent");
+
+    //   // Reset state
+    //   setGoalSet(false);
+    //   setGoalValue(1);
+    //   setProgressValue(0);
+    //   setPercent(0);
+    // }, timeUntilMidnight);
+    // console.log(
+    //   `⏱ Reset will happen in ${(timeUntilMidnight / 1000 / 60).toFixed(
+    //     2
+    //   )} minutes.`
+    // );
+
+    // return () => clearTimeout(timer); // Clean up if component unmounts
+    const lastUpdated = localStorage.getItem("lastUpdatedDate");
+    const today = new Date().toDateString();
+
+    if (lastUpdated !== today) {
+      // It's a new day – clear the daily data
       localStorage.removeItem("todayGoal");
       localStorage.removeItem("todayProgress");
       localStorage.removeItem("todayPercent");
 
-      // Reset state
+      localStorage.setItem("lastUpdatedDate", today);
+
       setGoalSet(false);
       setGoalValue(1);
       setProgressValue(0);
       setPercent(0);
-    }, timeUntilMidnight);
-    console.log(
-      `⏱ Reset will happen in ${(timeUntilMidnight / 1000 / 60).toFixed(
-        2
-      )} minutes.`
-    );
-
-    return () => clearTimeout(timer); // Clean up if component unmounts
+    }
   }, []);
 
   const onChange = (value) => {
