@@ -11,7 +11,6 @@ import "@ant-design/v5-patch-for-react-19";
 import JobForm from "./components/JobForm.jsx";
 import { Layout, Row, Col } from "antd";
 
-
 function App() {
   const { Content } = Layout;
   const [streak, setStreak] = useState(0);
@@ -33,15 +32,17 @@ function App() {
     setStreak(
       localStorage.getItem("my-jobs")
         ? JSON.parse(localStorage.getItem("my-jobs")).filter(
-          (item) => item.status !== "Not submitted"
-        ).length
+            (item) => item.status !== "Not submitted"
+          ).length
         : 0
     );
   }, []);
   return (
     <>
       <h1 style={{ textAlign: "center", margin: "24px 0" }}>Manifestify</h1>
-      <Layout style={{  background: "#fff", minHeight: "100vh", padding: "24px" }}>
+      <Layout
+        style={{ background: "#fff", minHeight: "100vh", padding: "24px" }}
+      >
         <Content>
           {/* Top section with 3 columns */}
           <Row gutter={[24, 24]}>
@@ -49,8 +50,8 @@ function App() {
               <JobForm setJobItems={handleAddJob} />
             </Col>
             <Col xs={24} md={8}>
-              <Motivator />
               <Streak streak={streak} />
+              <Motivator />
             </Col>
             <Col xs={24} md={8}>
               <DailyGoal
