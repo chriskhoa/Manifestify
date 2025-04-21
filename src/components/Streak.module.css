@@ -1,0 +1,16 @@
+.box {
+  border: 1px solid rgb(197, 197, 197);
+  border-radius: 20px;
+  margin: 0px 30px 20px 30px;
+}
+
+.streak {
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.emoji {
+  font-size: 2rem;
+  margin: 0.5rem;
+}
