@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CloudSyncOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, DatePicker, Form, Input } from "antd";
+import styles from "./JobForm.module.css";
 
 const { TextArea } = Input;
 
@@ -41,11 +42,12 @@ const JobForm = ({ setJobItems }) => {
   };
 
   return (
-    <>
+    <div className={styles.box}>
+      <h2>Add an application</h2>
       <Form
         form={form}
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 15 }}
         layout="horizontal"
         style={{ maxWidth: 600 }}
       >
@@ -93,10 +95,10 @@ const JobForm = ({ setJobItems }) => {
           />
         </Form.Item>
         <Form.Item type="primary" onClick={addJob}>
-          <Button>Add Job</Button>
+          <Button type="primary">Add Job</Button>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 };
 

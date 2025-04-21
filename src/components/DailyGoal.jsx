@@ -1,8 +1,9 @@
 import React from "react";
 import { InputNumber } from "antd";
 import { useState, useEffect } from "react";
-import { Progress, Space, Button, Popconfirm, Statistic } from "antd";
+import { Progress, Space, Button, Popconfirm, Statistic, Divider } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import styles from "./DailyGoal.module.css";
 const { Countdown } = Statistic;
 
 const DailyGoal = ({
@@ -102,7 +103,8 @@ const DailyGoal = ({
   return (
     <>
       {goalSet ? (
-        <div>
+        <div className={styles.box}>
+          <h2>Your today's goal</h2>
           <div>
             🎯 You’ve set your goal to submit <strong>{goalValue}</strong> job
             application{goalValue > 1 ? "s" : ""} today!
@@ -112,6 +114,8 @@ const DailyGoal = ({
               type="circle"
               format={() => `${progressValue} / ${goalValue}`}
               percent={percent}
+              size={250}
+              className={styles.progress}
             />
             {/* <Space.Compact>
               <Button onClick={increase} icon={<PlusOutlined />} />
