@@ -18,7 +18,6 @@ import {
   Typography,
 } from "antd";
 import Highlighter from "react-highlight-words";
-import JobForm from "./JobForm.jsx";
 
 const { Option } = Select;
 
@@ -75,22 +74,12 @@ const JobTable = ({
   setDataSource,
 }) => {
   const [form] = Form.useForm();
-  // const [dataSource, setDataSource] = useState(() => {
-  //   return JSON.parse(localStorage.getItem("my-jobs")) || [];
-  // });
-
   const [editingKey, setEditingKey] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
   const isEditing = (record) => record.key === editingKey;
-
-  // const handleAddJob = (job) => {
-  //   const updatedData = [...dataSource, { ...job, clicks: 0 }];
-  //   setDataSource(updatedData);
-  //   localStorage.setItem("my-jobs", JSON.stringify(updatedData));
-  // };
 
   const edit = (record) => {
     form.setFieldsValue({ ...record });
@@ -384,12 +373,6 @@ const JobTable = ({
         </div>
       ),
     },
-    // {
-    //   title: 'Notes',
-    //   className: 'col-notes',
-    //   dataIndex: 'notes',
-    //   editable: true,
-    // },
     {
       title: "Actions",
       dataIndex: "operation",
@@ -471,7 +454,6 @@ const JobTable = ({
 
   return (
     <>
-      {/* <JobForm setJobItems={handleAddJob} /> */}
       <Form form={form} component={false}>
         <Table
           components={{ body: { cell: EditableCell } }}
