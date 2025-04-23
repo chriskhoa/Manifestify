@@ -1,43 +1,69 @@
 import React, { useState } from "react";
-import { CloudSyncOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, DatePicker, Form, Input } from "antd";
 import styles from "./JobForm.module.css";
 
+//This code follows code examples at "https://ant.design/components/form"
+
 const { TextArea } = Input;
 
+/**
+ * JobForm component allows users to add a new job application.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.setJobItems - Function to update the job list with a new job object.
+ * @returns {JSX.Element} The rendered form component.
+ */
 const JobForm = ({ setJobItems }) => {
+  /** Ant Design form instance for controlling form behavior */
   const [form] = Form.useForm();
 
+  /** @type {[string, Function]} Company input and setter */
   const [company, setCompany] = useState("");
+
+  /** @type {[string, Function]} Job title input and setter */
   const [title, setTitle] = useState("");
+
+  /** @type {[string, Function]} Job link input and setter */
   const [link, setLink] = useState("");
+
+  /** @type {[moment.Moment | null, Function]} Deadline input and setter */
   const [deadline, setDeadline] = useState("");
+
+  /** @type {[string, Function]} Notes input and setter */
   const [notes, setNotes] = useState("");
+  /** @type {[string, Function]} Status input and setter */
   const [status, setStatus] = useState("");
 
+  /**
+ * Handles creating and submitting a new job object to the parent component.
+ * Resets the form upon successful submission.
+ */
   const addJob = () => {
     if (company && title) {
       const newJob = {
-        key: Date.now().toString(), // Make sure it has a key for Ant Design Table
+         /** Unique identifier for Ant Design Table rows */
+        key: Date.now().toString(),
         company,
         title,
         job_link: link,
+         /** Format deadline or fallback to "Rolling" */
         deadline: deadline ? deadline.format("YYYY-MM-DD") : "Rolling",
         notes,
+        /** Default status to "Not submitted" */
         status: status ? status : "Not submitted",
       };
 
-      setJobItems(newJob); // Just pass the object
+      setJobItems(newJob); // Pass new job object to parent state
 
-      // Reset fields
+       // Reset form fields
       setCompany("");
       setTitle("");
       setLink("");
       setDeadline(null);
       setNotes("");
       setStatus("");
-      // setDate('');
-      form.resetFields();
+      form.resetFields(); // Resets Ant Design controlled form inputs
     }
   };
 
