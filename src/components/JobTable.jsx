@@ -20,19 +20,23 @@ import {
 } from "antd";
 import Highlighter from "react-highlight-words";
 
+// this code follows code examples from "https://ant.design/components/table"
+
 const { Option } = Select;
 /**
- * Renders an editable table cell.
+ * Editable cell component used to render form elements in editable mode.
  *
  * @param {Object} props
- * @param {boolean} props.editing - Whether the row is currently being edited.
- * @param {string} props.dataIndex - Data index of the column.
- * @param {string} props.title - Column title.
- * @param {string} props.inputType - Type of input field.
- * @param {Object} props.record - The data record.
+ * @param {boolean} props.editing - Whether the row is in editing mode.
+ * @param {string} props.dataIndex - The field name.
+ * @param {string} props.title - The column title.
+ * @param {string} props.inputType - Type of input control.
+ * @param {Object} props.record - The current row's data.
  * @param {number} props.index - Row index.
- * @param {React.ReactNode} props.children - Default cell content.
+ * @param {React.ReactNode} props.children - Cell children.
+ * @returns {JSX.Element}
  */
+
 const EditableCell = ({
   editing,
   dataIndex,
@@ -78,17 +82,18 @@ const EditableCell = ({
 };
 
 /**
- * JobTable Component
- * Displays and manages an editable job application tracking table.
- * 
- * @component
- * @param {Function} setStreak - Function to update the number of submitted jobs.
- * @param {Function} setProgressValue - Function to update today's progress value.
- * @param {Function} setPercent - Function to update progress percent.
- * @param {number} goalValue - Total job submission goal for the day.
- * @param {Array} dataSource - Array of job data records.
- * @param {Function} setDataSource - Function to update job data.
+ * JobTable component to display, edit, search, and manage job applications.
+ *
+ * @param {Object} props
+ * @param {Function} props.setStreak - Updates the streak counter.
+ * @param {Function} props.setProgressValue - Updates the progress value.
+ * @param {Function} props.setPercent - Updates the percentage progress.
+ * @param {number} props.goalValue - Daily goal for job applications.
+ * @param {Array<Object>} props.dataSource - Job data array.
+ * @param {Function} props.setDataSource - Setter to update job data.
+ * @returns {JSX.Element}
  */
+
 const JobTable = ({
   setStreak,
   setProgressValue,
@@ -194,9 +199,9 @@ const JobTable = ({
   };
 
   /**
-   * Returns column search props for a given column.
-   * 
-   * @param {string} dataIndex
+   * Generates props for searchable columns.
+   * @param {string} dataIndex - Field to apply search filter to.
+   * @returns {Object} Column search props.
    */
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -341,6 +346,7 @@ const JobTable = ({
       title: "Status",
       dataIndex: "status",
       className: "col-status",
+      // In an Ant Design Table, each column can have a render function that controls how each cell's content is displayed for that column. render takes two arguments: _: The value of the current cell & record: The entire row's data object (i.e., all fields for that row).
       render: (_, record) => (
         <div
           className={`status-wrapper status-${
@@ -497,7 +503,12 @@ const JobTable = ({
     },
   ];
 
-  // Adding an onCell function to editable columns so the table knows how to render an editable cell when you're editing a row.
+  /**
+ * Enhances the column definitions by adding `onCell` handlers to editable columns.
+ * This allows the Ant Design Table to render editable cells using the `EditableCell` component.
+ *
+ * @type {Array<Object>}
+ */
   const mergedColumns = columns.map((col) => {
     if (!col.editable) return col;
     return {
@@ -528,6 +539,7 @@ const JobTable = ({
           rowClassName="editable-row"
           pagination={{ onChange: cancel }}
           expandable={{
+            //render expandable rows "https://codesandbox.io/p/sandbox/expandable-row-ant-design-demo-gr27i"
             expandedRowRender: (record) => {
               const editing = isEditing(record);
               return editing ? (
