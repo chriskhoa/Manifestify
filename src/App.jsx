@@ -39,6 +39,7 @@ function App() {
   }, []);
   return (
     <>
+    {/* Ant Design Layout https://ant.design/components/layout */}
       <h1 style={{ textAlign: "center", margin: "24px 0" }}>Manifestify</h1>
       <Layout
         style={{ background: "#fff", minHeight: "100vh", padding: "24px" }}
