@@ -39,6 +39,7 @@ While we are proud of our progress, there were a few features we did not complet
 - ❌ Tracking how many days users meet their daily goals.
 - ❌ Adding animated feedback (e.g., clapping emoji) when a job status changes.
 - ❌ Displaying contextual motivational messages based on job status (e.g., messages tailored to “rejected” status).
+- ❌ No reset filter function in Job Table.
 
 ---
 
@@ -69,7 +70,7 @@ To enhance and scale up Manifesitfy, we plan to:
 
 ## 🧑‍💻 Tech Stack
 
-- **Frontend:** React, JavaScript, Tailwind CSS
+- **Frontend:** React, JavaScript, Ant Design
 - **State Management:** React hooks
 - **Storage:** Local Storage API
 
@@ -77,4 +78,6 @@ To enhance and scale up Manifesitfy, we plan to:
 
 ## 🙌 Acknowledgements
 
-Big thanks to our team members for the collaborative effort and creative ideas that shaped this app. This project helped us learn a lot about React development, UI/UX considerations, and working effectively in a team environment.
+- Big thanks to the SI579 instructor team for giving us a lot of support and feedback along the way.
+- Ant Design provided many great component templates that are essential to our app.
+- ChatGPT helped us write the JSDOC for our code and format our README document.

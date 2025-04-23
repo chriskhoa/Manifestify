@@ -2,9 +2,25 @@ import motivationMessage from "../util/motivationMessage";
 import { useState } from "react";
 import styles from "./Motivator.module.css";
 
+/**
+ * Motivator Component
+ *
+ * Displays a motivational quote from a predefined list and allows users
+ * to cycle through quotes by clicking the "Generate" button.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Motivator />
+ * )
+ */
 const Motivator = () => {
+  /**
+   * Index of the current motivational message being displayed.
+   * @type {[number, Function]}
+   */
   const [index, setIndex] = useState(0);
-  console.log(index);
+
   return (
     <div className={styles.box}>
       <h2>When in doubt, remember</h2>

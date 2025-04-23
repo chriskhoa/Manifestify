@@ -1,11 +1,28 @@
 import React from "react";
-import { InputNumber } from "antd";
-import { useState, useEffect } from "react";
-import { Progress, Space, Button, Popconfirm, Statistic, Divider } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
+import { Progress, Button, Popconfirm, Statistic, InputNumber } from "antd";
 import styles from "./DailyGoal.module.css";
 const { Countdown } = Statistic;
 
+/**
+ * DailyGoal Component
+ *
+ * Allows users to set and track their daily job application goals.
+ * Displays a circular progress bar and countdown to midnight.
+ * Persists state using localStorage and resets at the start of a new day.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {number} props.goalValue - The number of applications the user aims to submit today
+ * @param {Function} props.setGoalValue - Setter for updating `goalValue`
+ * @param {boolean} props.goalSet - Whether the goal has already been set today
+ * @param {Function} props.setGoalSet - Setter for updating `goalSet` status
+ * @param {number} props.progressValue - Current number of applications submitted today
+ * @param {Function} props.setProgressValue - Setter for updating `progressValue`
+ * @param {number} props.percent - Completion percentage of the goal
+ * @param {Function} props.setPercent - Setter for updating `percent`
+ * @returns {JSX.Element} The rendered DailyGoal component
+ */
 const DailyGoal = ({
   goalValue,
   setGoalValue,
@@ -16,11 +33,6 @@ const DailyGoal = ({
   percent,
   setPercent,
 }) => {
-  // const [goalValue, setGoalValue] = useState(1);
-  // const [goalSet, setGoalSet] = useState(false);
-  // const [progressValue, setProgressValue] = useState(0);
-  // const [percent, setPercent] = useState(0);
-
   // Keep track of daily progress in local storage
   useEffect(() => {
     const todayGoal = JSON.parse(localStorage.getItem("todayGoal"));
@@ -41,30 +53,6 @@ const DailyGoal = ({
 
   // Reset goal at midnight
   useEffect(() => {
-    // const now = new Date();
-    // const tomorrow = new Date();
-    // tomorrow.setHours(0, 31, 0, 0); // Midnight tonight
-    // const timeUntilMidnight = tomorrow.getTime() - now.getTime();
-
-    // const timer = setTimeout(() => {
-    //   // Clear localStorage values
-    //   localStorage.removeItem("todayGoal");
-    //   localStorage.removeItem("todayProgress");
-    //   localStorage.removeItem("todayPercent");
-
-    //   // Reset state
-    //   setGoalSet(false);
-    //   setGoalValue(1);
-    //   setProgressValue(0);
-    //   setPercent(0);
-    // }, timeUntilMidnight);
-    // console.log(
-    //   `⏱ Reset will happen in ${(timeUntilMidnight / 1000 / 60).toFixed(
-    //     2
-    //   )} minutes.`
-    // );
-
-    // return () => clearTimeout(timer); // Clean up if component unmounts
     const lastUpdated = localStorage.getItem("lastUpdatedDate");
     const today = new Date().toDateString();
 
@@ -83,37 +71,27 @@ const DailyGoal = ({
     }
   }, []);
 
+  /**
+   * Handles changes to the goal input field.
+   * @param {number} value - New goal value input by user
+   */
   const onChange = (value) => {
     setGoalValue(value);
   };
+
+  /**
+   * Confirms and sets the user's daily goal in localStorage.
+   * Resets the progress and percent for the new day.
+   * @param {React.MouseEvent} e - The confirm button click event
+   */
   const confirm = (e) => {
-    // set local storage to keep track of progress
     localStorage.setItem("todayGoal", JSON.stringify(goalValue));
     localStorage.setItem("todayProgress", JSON.stringify(0));
     localStorage.setItem("todayPercent", JSON.stringify(0));
-    // set daily goal progress value after confirmation
+
     setProgressValue(0);
     setPercent(0);
     setGoalSet(true);
-  };
-
-  const increase = () => {
-    // test function
-    setProgressValue((prevProgressValue) => {
-      const newProgressValue = prevProgressValue + 1;
-      localStorage.setItem("todayProgress", JSON.stringify(newProgressValue));
-      return newProgressValue;
-    });
-
-    setPercent((prevPercent) => {
-      const newPercent = prevPercent + (1 / goalValue) * 100;
-      if (newPercent > 99.99) {
-        localStorage.setItem("todayPercent", JSON.stringify(100));
-        return 100;
-      }
-      localStorage.setItem("todayPercent", JSON.stringify(newPercent));
-      return newPercent;
-    });
   };
 
   return (
@@ -133,9 +111,6 @@ const DailyGoal = ({
               size={250}
               className={styles.progress}
             />
-            {/* <Space.Compact>
-              <Button onClick={increase} icon={<PlusOutlined />} />
-            </Space.Compact> */}
             <Countdown
               title="Countdown"
               value={new Date().setHours(24, 0, 0, 0)}
@@ -163,4 +138,5 @@ const DailyGoal = ({
     </>
   );
 };
+
 export default DailyGoal;
