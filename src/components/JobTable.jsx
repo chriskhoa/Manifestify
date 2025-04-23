@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from "react";
 import "./JobTable.css";
 import {
@@ -20,7 +21,18 @@ import {
 import Highlighter from "react-highlight-words";
 
 const { Option } = Select;
-
+/**
+ * Renders an editable table cell.
+ *
+ * @param {Object} props
+ * @param {boolean} props.editing - Whether the row is currently being edited.
+ * @param {string} props.dataIndex - Data index of the column.
+ * @param {string} props.title - Column title.
+ * @param {string} props.inputType - Type of input field.
+ * @param {Object} props.record - The data record.
+ * @param {number} props.index - Row index.
+ * @param {React.ReactNode} props.children - Default cell content.
+ */
 const EditableCell = ({
   editing,
   dataIndex,
@@ -65,6 +77,18 @@ const EditableCell = ({
   );
 };
 
+/**
+ * JobTable Component
+ * Displays and manages an editable job application tracking table.
+ * 
+ * @component
+ * @param {Function} setStreak - Function to update the number of submitted jobs.
+ * @param {Function} setProgressValue - Function to update today's progress value.
+ * @param {Function} setPercent - Function to update progress percent.
+ * @param {number} goalValue - Total job submission goal for the day.
+ * @param {Array} dataSource - Array of job data records.
+ * @param {Function} setDataSource - Function to update job data.
+ */
 const JobTable = ({
   setStreak,
   setProgressValue,
@@ -79,17 +103,26 @@ const JobTable = ({
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
+  
+  /** Checks if a row is being edited. */
   const isEditing = (record) => record.key === editingKey;
 
+  /** Enables editing mode for the selected record. */
   const edit = (record) => {
     form.setFieldsValue({ ...record });
     setEditingKey(record.key);
   };
 
+    /** Cancels editing. */
   const cancel = () => {
     setEditingKey("");
   };
 
+   /**
+   * Saves edited record and updates local storage.
+   * 
+   * @param {string} key - Unique key of the record being saved.
+   */
   const save = async (key) => {
     try {
       const row = await form.validateFields();
@@ -109,6 +142,13 @@ const JobTable = ({
     }
   };
 
+  
+  /**
+   * Increments the "manifest it 🙏" click count.
+   * 
+   * @param {Object} record - Job record.
+   */
+
   const handleClick = (record) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => item.key === record.key);
@@ -123,6 +163,13 @@ const JobTable = ({
     }
   };
 
+    /**
+   * Updates status and adjusts streak/progress values.
+   * 
+   * @param {string} value - New status.
+   * @param {Object} record - Job record.
+   */
+
   const handleStatusChange = (value, record) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => item.key === record.key);
@@ -133,17 +180,24 @@ const JobTable = ({
     }
   };
 
+  /** Executes a search within a column. */
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
-
+    
+  /** Resets search input for a column. */
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
+  /**
+   * Returns column search props for a given column.
+   * 
+   * @param {string} dataIndex
+   */
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -223,12 +277,20 @@ const JobTable = ({
       ),
   });
 
+
+  /**
+   * Deletes a job record.
+   * 
+   * @param {string} key - Record key.
+   */
+
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
     localStorage.setItem("my-jobs", JSON.stringify(newData));
   };
 
+  // Column definitions
   const columns = [
     {
       title: "Company",
@@ -289,6 +351,8 @@ const JobTable = ({
             value={record.status}
             onChange={(value) => {
               handleStatusChange(value, record);
+
+              // Update streak and progress
               setStreak(
                 JSON.parse(localStorage.getItem("my-jobs")).filter(
                   (item) => item.status !== "Not submitted"
@@ -433,6 +497,7 @@ const JobTable = ({
     },
   ];
 
+  // Adding an onCell function to editable columns so the table knows how to render an editable cell when you're editing a row.
   const mergedColumns = columns.map((col) => {
     if (!col.editable) return col;
     return {
