@@ -40,6 +40,7 @@ While we are proud of our progress, there were a few features we did not complet
 - ❌ Adding animated feedback (e.g., clapping emoji) when a job status changes.
 - ❌ Displaying contextual motivational messages based on job status (e.g., messages tailored to “rejected” status).
 - ❌ No reset filter function in Job Table.
+- ❌ Handling some edge cases for the daily goals tracking (e.g., when job status changes backward to not submitted).
 
 ---
 
@@ -64,13 +65,13 @@ To enhance and scale up Manifesitfy, we plan to:
   Allow users to personalize the job form and table, choosing which fields they want to display or track.
 
 - 🗂 **Multi-Table Support**  
-  Introduce multiple tabs or dashboards, enabling users to manage job applications across different categories or projects.
+  Introduce multiple tabs or dashboards, enabling users to manage multiple job tables at once.
 
 ---
 
 ## 🧑‍💻 Tech Stack
 
-- **Frontend:** React, JavaScript, Ant Design
+- **Frontend:** React, JavaScripts, CSS, Ant Design
 - **State Management:** React hooks
 - **Storage:** Local Storage API
 
