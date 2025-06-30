@@ -1,6 +1,6 @@
 # 🌱 Manifestify React App 🌱
 
-**Manifesitfy** is a productivity-focused React application designed to help users manage and track their job applications while staying motivated throughout their job search journey.
+**Manifestify** is a productivity-focused React application designed to help users manage and track their job applications while staying motivated throughout their job search journey.
 
 **Check it out:** https://chriskhoa.github.io/Manifestify/
 
