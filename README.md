@@ -39,9 +39,13 @@ In the final version of our project, we have implemented the following features:
 While we are proud of our progress, there were a few features we did not complete:
 
 - ❌ Tracking how many days users meet their daily goals.
+
 - ❌ Adding animated feedback (e.g., clapping emoji) when a job status changes.
+  
 - ❌ Displaying contextual motivational messages based on job status (e.g., messages tailored to “rejected” status).
+  
 - ❌ No reset filter function in Job Table.
+  
 - ❌ Handling some edge cases for the daily goals tracking (e.g., when job status changes backward to not submitted).
 
 ---
@@ -74,7 +78,9 @@ To enhance and scale up Manifesitfy, we plan to:
 ## 🧑‍💻 Tech Stack
 
 - **Frontend:** React, JavaScripts, CSS, Ant Design
+  
 - **State Management:** React hooks
+  
 - **Storage:** Local Storage API
 
 ---
